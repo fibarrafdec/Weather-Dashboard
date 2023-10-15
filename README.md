@@ -87,7 +87,7 @@ This application has been tested running it after deployment with GitHub.
 
 ## Questions?
 
-If you have any questions related with this Express Note Taker, feel free to reach me through:
+If you have any questions related with this Weather Dashboard, feel free to reach me through:
 
 Email:[fibarrafdec@gmail.com](fibarrafdec@gmail.com)
 
