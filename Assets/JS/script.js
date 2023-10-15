@@ -24,25 +24,29 @@ function displayWeatherData(data) {
   // Clear previous data
   clearSubContainers();
 
-  // Display current weather data
-  const cityName = data.city.name;
-  const temperature = (data.list[0].main.temp - 273.15).toFixed(2); // Convert from Kelvin to Celsius
-  const humidity = data.list[0].main.humidity;
+// Display current weather data
+const cityName = data.city.name;
+const temperature = (data.list[0].main.temp - 273.15).toFixed(2); // Convert from Kelvin to Celsius
+const humidity = data.list[0].main.humidity;
+const windSpeed = data.list[0].wind.speed; // Wind speed in m/s
+const weatherIcon = data.list[0].weather[0].icon; // Weather icon code
 
-  const currentWeather = document.querySelector(".subContainer3");
-  currentWeather.innerHTML = `<p>City: ${cityName}</p><p>Temperature: ${temperature}°C</p><p>Humidity: ${humidity}%</p>`;
+const currentWeather = document.querySelector(".subContainer3");
+currentWeather.innerHTML = `<p>Today's Forecast</p><p>City: ${cityName}</p><p>Temperature: ${temperature}°C</p><p>Humidity: ${humidity}%</p><p>Wind Speed: ${windSpeed} m/s</p><img class="weather-icon" src="https://openweathermap.org/img/wn/${weatherIcon}.png" alt="Weather Icon">`;
 
-  // Display 5-day forecast
-  const forecast = data.list.slice(1, 6); // Get the next 5 entries for the forecast
+// Display 5-day forecast
+const forecast = data.list.filter((item, index) => index % 8 === 0); // Select data points at 3-hour intervals (8 data points per day)
 
-  for (let i = 0; i < forecast.length; i++) {
-    const subContainer = document.querySelector(`.subContainer${i + 4}`);
-    const date = new Date(forecast[i].dt * 1000); // Convert timestamp to date
-    const forecastTemp = (forecast[i].main.temp - 273.15).toFixed(2); // Convert from Kelvin to Celsius
-    const humidity = forecast[i].main.humidity;
+for (let i = 0; i < forecast.length; i++) {
+  const subContainer = document.querySelector(`.subContainer${i + 4}`);
+  const date = new Date(forecast[i].dt * 1000); // Convert timestamp to date
+  const forecastTemp = (forecast[i].main.temp - 273.15).toFixed(2); // Convert from Kelvin to Celsius
+  const forecastHumidity = forecast[i].main.humidity;
+  const forecastWindSpeed = forecast[i].wind.speed; // Wind speed in m/s
+  const forecastIcon = forecast[i].weather[0].icon; // Weather icon code
 
-    subContainer.innerHTML = `<p>Date: ${date.toDateString()}</p><p>Temperature: ${forecastTemp}°C</p><p>Humidity: ${humidity}%</p>`;
-  }
+  subContainer.innerHTML = `<p>Date: ${date.toDateString()}</p><p>Temperature: ${forecastTemp}°C</p><p>Humidity: ${forecastHumidity}%</p><p>Wind Speed: ${forecastWindSpeed} m/s</p><img class="weather-icon" src="https://openweathermap.org/img/wn/${forecastIcon}.png" alt="Weather Icon">`;
+}
 }
 
 // Function to clear previous data in subContainers
